@@ -2,6 +2,10 @@ require "heroku-rake/version"
 
 module Heroku
   module Rake
-    # Your code goes here...
+    class Railtie < ::Rails::Railtie
+      rake_tasks do
+        load "heroku-rake/tasks/heroku.rake"
+      end
+    end
   end
 end

@@ -1,13 +1,12 @@
 # heroku-rake
 
-heroku-rake is a lightweight gem that provides rake tasks for deploying Ruby 
+heroku-rake is a lightweight gem that provides rake tasks for deploying Rails 
 apps to Heroku. It does not attempt to recreate all functionality of the 
 [Heroku Toolbelt](https://toolbelt.heroku.com). It is simply a convenience for 
 deployment since deploying to Heroku typically involves a series of steps 
-(backup, push, migrate) that are easy to forget when running manually.
-
-heroku-rake works with or without Rails. It is configurable so you can decide 
-which steps are appropriate for different types of deployment.
+(backup, push, migrate) that are easy to forget when running manually. It is 
+configurable so you can decide which steps are appropriate for different types 
+of deployment.
 
 ## Prerequisites
 
@@ -16,9 +15,12 @@ Toolbelt](https://toolbelt.heroku.com) installed. It simply shells out to the
 `heroku` command. We're also assuming you've created your Heroku app and the 
 necessary Git remotes.
 
+The gem also currently assumes you're using Rails. Pull requests to make it 
+framework-agnostic would be welcomed.
+
 ## Installation
 
-Add this line to your application's Gemfile:
+Add this line to the development group in your application's Gemfile:
 
 ```ruby
 gem 'heroku-rake'
@@ -27,7 +29,7 @@ gem 'heroku-rake'
 Generate the skeleton deploy tasks:
 
 ```shell
-rails generate heroku-rake
+rails generate heroku:rake_tasks
 ```
 
 ## Usage & Configuration
