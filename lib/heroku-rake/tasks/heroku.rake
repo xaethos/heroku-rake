@@ -20,7 +20,7 @@ namespace :heroku do
   end
 
   task :ping => :heroku_command_line_client do
-    url = `heroku domains`.split("\n").last.strip
+    url = `heroku domains --app #{heroku_app}`.split("\n").last.strip
     url = "#{heroku_app}.herokuapp.com" if url[/No domain names/]
     sh "curl http://#{url}#{PING_ENDPOINT}"
   end
