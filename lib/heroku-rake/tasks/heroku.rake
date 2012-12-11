@@ -11,6 +11,11 @@ namespace :heroku do
 
     puts "***** DEPLOYING TO #{heroku_app} *****"
     puts "***** use the TO=git_remote option to specify a different environment *****"
+    if DEFAULT_TAG = 'true'
+      puts "***** use the TAG=false to suppress tag the origin repository *****"
+    elsif DEFAULT_TAG = 'false'
+      puts "***** use the TAG=true to tag the origin repository *****"
+    end
 
     sh "git push #{git_remote} #{current_branch}:master"
   end
@@ -20,9 +25,30 @@ namespace :heroku do
   end
 
   task :ping => :heroku_command_line_client do
-    url = `heroku domains --app #{heroku_app}`.split("\n").last.strip
-    url = "#{heroku_app}.herokuapp.com" if url[/No domain names/]
+    url = `heroku domains --app #{heroku_app}`
+    url = "#{heroku_app}.herokuapp.com" if url =~ /no domain names/
+    url = url.split("\n").last.strip
     sh "curl http://#{url}#{PING_ENDPOINT}"
+  end
+
+  task :tag do
+    if tag_this_deploy?
+      rev = `git rev-parse HEAD`.strip
+      result = `git describe --contains #{rev} 2>&1`
+      puts result
+      puts heroku_app.to_s
+
+      if !result.include?(heroku_app.to_s) or result.include?('cannot describe')
+        version = Time.new.strftime("%Y%m%d%H%M%S")
+        sh "git tag -a #{heroku_app}-#{version} -m 'Deploy version to #{heroku_app}: #{version}'"
+        sh "git push origin master"
+        sh "git push origin master --tags"
+      else
+        puts "[!] The current revision is already tagged, skipping tag creation."
+      end
+    else
+      puts "... skipping tagging..."
+    end
   end
 
   namespace :db do
@@ -44,6 +70,11 @@ namespace :heroku do
     task :off => :heroku_command_line_client do
       sh "heroku maintenance:off --app #{heroku_app}"
     end
+  end
+
+  def tag_this_deploy?
+    ENV['TAG'] ||= DEFAULT_TAG
+    ENV['TAG'] == 'true'
   end
 
   def heroku_app
