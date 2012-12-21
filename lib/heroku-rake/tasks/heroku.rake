@@ -6,13 +6,13 @@ namespace :heroku do
   end
 
   task :push => :heroku_command_line_client do
-    current_branch = `git branch | grep '*' | cut -d ' ' -f 2`.strip
-    git_remote     = `git remote -v | grep 'git@heroku.*:#{heroku_app}.git' | grep -e push | cut -f 1 | cut -d : -f 3`.strip
+    git = Git.open '.'
+    git_remote = git.remotes.find {|r| r.url =~ /git@heroku.*:#{heroku_app}.git/ }
 
     puts "***** DEPLOYING TO #{heroku_app} *****"
     puts "***** use the TO=git_remote option to specify a different environment *****"
 
-    sh "git push #{git_remote} #{current_branch}:master"
+    sh "git push #{git_remote.name} #{git.current_branch}:master"
   end
 
   task :restart => :heroku_command_line_client do
@@ -52,4 +52,5 @@ namespace :heroku do
 
     app_name
   end
+
 end
