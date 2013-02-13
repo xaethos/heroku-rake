@@ -44,6 +44,23 @@ rake deploy:migrations      # Deploy to Heroku with migrations, use TO=remote to
 rake deploy:migrations:safe # Deploy to Heroku with migrations and maintenance mode, use TO=remote to specify an env...
 ```
 
+## Optional Tagging of Deployments
+
+Deployments can be automatically tagged with tags pushed to your main
+development repository (e.g. GitHub).  To utilize this feature, change
+your deploy.rake as follows:
+
+```ruby
+DEFAULT_TAG 'true'
+```
+
+Otherwise, you can tag specific deployments on the fly by using the 
+TAG environment variable:
+
+```shell
+rake deploy TAG=true
+```
+
 ## Contributing
 
 1. Fork it
