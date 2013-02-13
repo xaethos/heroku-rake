@@ -41,8 +41,7 @@ namespace :heroku do
       if !result.include?(heroku_app.to_s) or result.include?('cannot describe')
         version = Time.new.strftime("%Y%m%d%H%M%S")
         sh "git tag -a #{heroku_app}-#{version} -m 'Deploy version to #{heroku_app}: #{version}'"
-        sh "git push origin master"
-        sh "git push origin master --tags"
+        sh "git push origin --tags"
       else
         puts "[!] The current revision is already tagged, skipping tag creation."
       end
