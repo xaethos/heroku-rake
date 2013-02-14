@@ -8,9 +8,9 @@ Gem::Specification.new do |gem|
   gem.version       = Heroku::Rake::VERSION
   gem.authors       = ["Adam McCrea"]
   gem.email         = ["adam@adamlogic.com"]
-  gem.description   = %q{Rake tasks to simpliy Rails deployment to Heroku}
-  gem.summary       = %q{Rake tasks to simpliy Rails deployment to Heroku}
-  gem.homepage      = "http://github.com/newcontext/heroku-rails"
+  gem.description   = %q{Rake tasks to simplify Rails deployment to Heroku}
+  gem.summary       = %q{Rake tasks to simplify Rails deployment to Heroku}
+  gem.homepage      = "http://github.com/neo/heroku-rake"
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
