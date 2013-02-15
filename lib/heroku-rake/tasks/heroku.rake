@@ -63,9 +63,8 @@ namespace :heroku do
   end
 
   def heroku_app
-    ENV['TO'] ||= DEFAULT_REMOTE
-    app_name = HEROKU_GIT_REMOTES[ENV['TO'].to_sym]
-
-    app_name
+    remote = (ENV['TO'] ||= DEFAULT_REMOTE).to_sym
+    abort "Invalid remote: #{remote}" unless HEROKU_GIT_REMOTES.has_key? remote
+    HEROKU_GIT_REMOTES[remote]
   end
 end
