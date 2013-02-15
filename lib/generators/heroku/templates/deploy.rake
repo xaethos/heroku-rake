@@ -1,5 +1,5 @@
-HEROKU_GIT_REMOTES = { production: 'heroku-app-name' }
-DEFAULT_REMOTE     = 'production'
+HEROKU_GIT_REMOTES = {} # Parsed from git. Use :remote => "app_name" pairs to override.
+DEFAULT_REMOTE     = 'heroku'
 PING_ENDPOINT      = '/ping' # A working URL that can be pinged to spin up your dynos
 
 desc 'Basic deploy to Heroku (no migrations), use TO=remote to specify an environment'
